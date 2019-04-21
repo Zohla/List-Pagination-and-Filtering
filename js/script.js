@@ -40,10 +40,10 @@ let currentPage = 1;
 
 const showPage = (list, page)=> {
   //gets item 0-9 in the studentlist on the the first page, and so on
-  const firstItem = page * showPerPage - showPerPage;
-  const lastItem = firstItem + showPerPage -1;//page * showPerPage - 1;// had to add -1 to not get 11 students on first page.
+  const startIndex = page * showPerPage - showPerPage;
+  const endIndex = startIndex + showPerPage -1;//page * showPerPage - 1;// had to add -1 to not get 11 students on first page.
   for (let i = 0; i < list.length; i++) {
-    if (i >= firstItem && i<= lastItem) {
+    if (i >= startIndex && i<= endIndex) {
       list[i].style.display = 'visible' ;
     } else {
       list[i].style.display = 'none';
@@ -53,7 +53,7 @@ const showPage = (list, page)=> {
 
 
 
-showPage(studentList, currentPage);
+
 
 
 /*** 
@@ -62,7 +62,7 @@ showPage(studentList, currentPage);
 ***/
 
 const appendPageLinks = list => {
-  const totalPages = Math.ceil(studentList/showPerPage);
+  const totalPages = Math.ceil(studentList.length/showPerPage);
   // get parent element
   const pageDiv = document.getElementsByClassName('page')[0];
   //creates new div
@@ -82,28 +82,32 @@ const appendPageLinks = list => {
       //creates a list item and a link for each page
       let li = document.createElement('LI');
       let link = document.createElement('A');
+      link.href = '#'; 
 
       //makes the text content of the link numbers(of pages) and append them.
       link.textContent = i;
       ul.appendChild(li);
-      li.appendChild(link);
-
+      li.appendChild(link);        
     }
     //sets an eventlistener to each link
     const pagLinks = document.querySelectorAll('.pagination a');
     //adds a className to the current link
-    PagLinks[0].className = 'current';
+    pagLinks[0].className = 'current';
 
-    for (let i = 0; i < links.length; i++)  {
-      links[i].addEventListener('click', (e) => {
-        const 
+    for (let i = 0; i < pagLinks.length; i++)  {
+      pagLinks[i].addEventListener('click', (event) => {
+        const clickedLink = event.target;
+        for (let j = 0; j < pagLinks.length; j++) {
+          pagLinks[j].className = '';
+        }
+        clickedLink.className = 'active';
       })
     }
 
 
   }
   
-  // for ()
+
 
 
 
@@ -111,8 +115,8 @@ const appendPageLinks = list => {
 
 console.log(studentList);
 
-appendPageLinks();
+appendPageLinks(studentList);
 
-
+showPage(studentList, currentPage);
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
