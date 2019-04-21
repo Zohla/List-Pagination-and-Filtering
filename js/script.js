@@ -44,7 +44,7 @@ const showPage = (list, page)=> {
   const endIndex = page * showPerPage -1;//page * showPerPage - 1;// had to add -1 to not get 11 students on first page.
   for (let i = 0; i < list.length; i++) {
     if (i >= startIndex && i<= endIndex) {
-      list[i].style.display = 'visible' ;
+      list[i].style.display = 'block' ;
     } else {
       list[i].style.display = 'none';
     }
@@ -79,7 +79,7 @@ const appendPageLinks = list => {
 
 //creates the necessary amount of pagination buttons.
   if (totalPages > 0) { //do I need .length here?
-    for (let i = 1; i < totalPages; i++) {
+    for (let i = 1; i <= totalPages; i++) {
       
       //creates a list item and a link for each page
       let li = document.createElement('LI');
@@ -102,7 +102,7 @@ const appendPageLinks = list => {
         for (let j = 0; j < pagLinks.length; j++) {
           pagLinks[j].className = '';
         }
-        clickedLink.className = 'active';
+        event.target.className = 'active';
         showPage(list, clickedLink); 
       })
     }
