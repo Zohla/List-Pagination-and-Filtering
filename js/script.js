@@ -41,7 +41,7 @@ let currentPage = 1;
 const showPage = (list, page)=> {
   //gets item 0-9 in the studentlist on the the first page, and so on
   const startIndex = page * showPerPage - showPerPage;
-  const endIndex = startIndex + showPerPage -1;//page * showPerPage - 1;// had to add -1 to not get 11 students on first page.
+  const endIndex = page * showPerPage -1;//page * showPerPage - 1;// had to add -1 to not get 11 students on first page.
   for (let i = 0; i < list.length; i++) {
     if (i >= startIndex && i<= endIndex) {
       list[i].style.display = 'visible' ;
@@ -62,6 +62,7 @@ const showPage = (list, page)=> {
 ***/
 
 const appendPageLinks = list => {
+  //calculates amount of pages needed
   const totalPages = Math.ceil(studentList.length/showPerPage);
   // get parent element
   const pageDiv = document.getElementsByClassName('page')[0];
@@ -79,6 +80,7 @@ const appendPageLinks = list => {
 //creates the necessary amount of pagination buttons.
   if (totalPages > 0) { //do I need .length here?
     for (let i = 1; i < totalPages; i++) {
+      
       //creates a list item and a link for each page
       let li = document.createElement('LI');
       let link = document.createElement('A');
@@ -91,16 +93,17 @@ const appendPageLinks = list => {
     }
     //sets an eventlistener to each link
     const pagLinks = document.querySelectorAll('.pagination a');
-    //adds a className to the current link
-    pagLinks[0].className = 'current';
-
+    //adds a className to the active link
+    pagLinks[0].className = 'active';
+//gives active page class 'active' and the others no class.
     for (let i = 0; i < pagLinks.length; i++)  {
       pagLinks[i].addEventListener('click', (event) => {
-        const clickedLink = event.target;
+        const clickedLink = event.target.textContent;
         for (let j = 0; j < pagLinks.length; j++) {
           pagLinks[j].className = '';
         }
         clickedLink.className = 'active';
+        showPage(list, clickedLink); 
       })
     }
 
@@ -113,10 +116,10 @@ const appendPageLinks = list => {
 
 }
 
-console.log(studentList);
-
-appendPageLinks(studentList);
 
 showPage(studentList, currentPage);
+appendPageLinks(studentList);
+
+
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
