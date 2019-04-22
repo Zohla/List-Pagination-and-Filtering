@@ -26,7 +26,8 @@ const getHeaderDiv = document.getElementsByClassName('page-header')[0];
 const searchDiv = document.createElement('DIV');
 const inputField = document.createElement('INPUT'); //need to add input.textcontent somewhere to use as an argumnet in my searchName function
 const button = document.createElement('BUTTON');
-const input = inputField.textContent;
+const names = document.getElementsByTagName('h3');
+const searchInput = inputField.textContent;
 button.innerHTML = 'Search';
 searchDiv.appendChild(button);
 searchDiv.className = 'student-search';
@@ -34,27 +35,24 @@ getHeaderDiv.appendChild(searchDiv);
 inputField.placeholder = 'Search for students...';
 searchDiv.appendChild(inputField);
 
-function searchName (searchInput, list) {
-  const searchResult = [];
-  for (let i = 0; i < list.length; i++) {
-    list[i].className = '';
-    if(searchInput.value.length !== 0) {
-      alert('Sorry, no student with that name')  
-      } else if(list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
-        searchResult.push(list[i]);
-          list[i].className = "match";
-      }
-  } if (list[i].className === 'match'){
-    list[i].style.display = 'block' ;
-  } else {
-    list[i].style.display = 'none';
+function searchName () {
+  // const searchResult = [];
+  for (let i = 0; i < names.length; i++) {
+    // names[i].className = '';
+    if(searchInput.length !== 0) {
+      alert('Sorry, you have to type at least one letter')  
+    } else if(names[i].textContent.toLowerCase().includes(searchInput.toLowerCase())) {
+        studentList[i].display = 'block';
+    } else {
+        studentList[i].display = 'none';
+    }
+  
+   showPage(studentList,1);
+   appendPageLinks(studentList)   
   }
-   showPage(searchResult,1);
-   appendPageLinks(searchResult)   
 }
   
-  
-
+searchName();
 
 button.addEventListener('click',searchName);
   
@@ -136,5 +134,5 @@ showPage(studentList, 1); //shows the first 'page' when the page loads
 
 appendPageLinks(studentList);
 
-searchName(input,studentList);
+
 
