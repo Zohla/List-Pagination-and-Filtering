@@ -7,35 +7,62 @@ FSJS project 2 - List Filter and Pagination
 
 
 /*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
+   Global variables 
 ***/
 
 const studentList = document.getElementsByClassName('student-item');
 const showPerPage = 10;
-let currentPage = 1;
-
 
 
 /*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
+   Search function
+***/
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
+//add the necessary elements to the DOM to make a search field and button
+//gets parent element, adds div,input and button.
+
+//use the h3? It contains the name of the students.
+const getHeaderDiv = document.getElementsByClassName('page-header')[0];
+const searchDiv = document.createElement('DIV');
+const inputField = document.createElement('INPUT'); //need to add input.textcontent somewhere to use as an argumnet in my searchName function
+const button = document.createElement('BUTTON');
+const input = inputField.textContent;
+button.innerHTML = 'Search';
+searchDiv.appendChild(button);
+searchDiv.className = 'student-search';
+getHeaderDiv.appendChild(searchDiv);
+inputField.placeholder = 'Search for students...';
+searchDiv.appendChild(inputField);
+
+function searchName (searchInput, list) {
+  const searchResult = [];
+  for (let i = 0; i < list.length; i++) {
+    list[i].className = '';
+    if(searchInput.value.length !== 0) {
+      alert('Sorry, no student with that name')  
+      } else if(list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
+        searchResult.push(list[i]);
+          list[i].className = "match";
+      }
+  } if (list[i].className === 'match'){
+    list[i].style.display = 'block' ;
+  } else {
+    list[i].style.display = 'none';
+  }
+   showPage(searchResult,1);
+   appendPageLinks(searchResult)   
+}
+  
+  
+
+
+button.addEventListener('click',searchName);
+  
+inputField.addEventListener('keyup', searchName);
+
+/*** 
+   Function to hide all of the items in the 
+   list except for the number you want to show.
 ***/
 
 const showPage = (list, page)=> {
@@ -52,50 +79,46 @@ const showPage = (list, page)=> {
 }
 
 
-
-
-
-
 /*** 
-   Create the `appendPageLinks function` to generate, append, and add 
+   Function to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 
 const appendPageLinks = list => {
   //calculates amount of pages needed
   const totalPages = Math.ceil(studentList.length/showPerPage);
-  // get parent element
+  // get parent element from the .html
   const pageDiv = document.getElementsByClassName('page')[0];
-  //creates new div
+  //create new div
   const newDiv = document.createElement('DIV');
   //gives newDiv a class name
   newDiv.className = 'pagination';
-  //appends newDiv to pageDiv
+  //append newDiv to pageDiv
   pageDiv.appendChild(newDiv);
-  //creates an ul
+  //create an ul
   let ul = document.createElement('UL');
-  //appends ul to newDiv
+  //append ul to newDiv
   newDiv.appendChild(ul);
 
-//creates the necessary amount of pagination buttons.
-  if (totalPages > 0) { //do I need .length here?
+//create the necessary amount of pagination buttons.
+  // if (totalPages > 0) { }//don't need if statement? Use it to check if the list is shorter or equal to showPerPage?
     for (let i = 1; i <= totalPages; i++) {
-      
-      //creates a list item and a link for each page
+      //creates a list item and a link for each 'page'
       let li = document.createElement('LI');
       let link = document.createElement('A');
       link.href = '#'; 
 
-      //makes the text content of the link numbers(of pages) and append them.
+      //sets the text content of the link to numbers and append the links.
       link.textContent = i;
       ul.appendChild(li);
       li.appendChild(link);        
     }
-    //sets an eventlistener to each link
+    //**sets an eventlistener to each link**//
+    //select the link
     const pagLinks = document.querySelectorAll('.pagination a');
-    //adds a className to the active link
+    //adds a className to the first(and active) link
     pagLinks[0].className = 'active';
-//gives active page class 'active' and the others no class.
+    //give active link class 'active' and the others no class.
     for (let i = 0; i < pagLinks.length; i++)  {
       pagLinks[i].addEventListener('click', (event) => {
         const clickedLink = event.target.textContent;
@@ -106,20 +129,12 @@ const appendPageLinks = list => {
         showPage(list, clickedLink); 
       })
     }
-
-
-  }
-  
-
-
-
-
 }
 
 
-showPage(studentList, currentPage);
+showPage(studentList, 1); //shows the first 'page' when the page loads
+
 appendPageLinks(studentList);
 
+searchName(input,studentList);
 
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
