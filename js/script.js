@@ -89,48 +89,55 @@ const appendPageLinks = list => {
 //add the necessary elements to the DOM to make a search field and button
 //gets parent element, adds div,input and button.
 
+const searchFunction = () => {
+  const getHeaderDiv = document.getElementsByClassName('page-header')[0];
+  const searchDiv = document.createElement('DIV');
+  const inputField = document.createElement('INPUT'); //need to add input.textcontent somewhere to use as an argumnet in my searchName function
+  const button = document.createElement('BUTTON');
+  const names = document.getElementsByTagName('h3');
+  const searchInput = inputField.textContent;
+  button.innerHTML = 'Search';
+  searchDiv.appendChild(button);
+  searchDiv.className = 'student-search';
+  getHeaderDiv.appendChild(searchDiv);
+  inputField.placeholder = 'Search for students...';
+  searchDiv.appendChild(inputField);
 
-const getHeaderDiv = document.getElementsByClassName('page-header')[0];
-const searchDiv = document.createElement('DIV');
-const inputField = document.createElement('INPUT'); //need to add input.textcontent somewhere to use as an argumnet in my searchName function
-const button = document.createElement('BUTTON');
-const names = document.getElementsByTagName('h3');
-const searchInput = inputField.textContent;
-button.innerHTML = 'Search';
-searchDiv.appendChild(button);
-searchDiv.className = 'student-search';
-getHeaderDiv.appendChild(searchDiv);
-inputField.placeholder = 'Search for students...';
-searchDiv.appendChild(inputField);
-
-function searchName () {
-//   // const shouldiUseAnArray = []; maby a better solution if I can't make current solution work??
-  for (let i = 0; i < names.length; i++) {
-    // names[i].className = '';
-    if(searchInput.length !== 0 && names[i].textContent.toLowerCase().includes(searchInput.toLowerCase())) {
-      studentList[i].display = 'block'; 
-    } 
-    // else {
-    //     studentList[i].display = 'none';
-    //     alert('Sorry, no match...')     //remember to maka a <p> or maby <h2> to say something if no search result instead of an alert
-  
-   showPage(studentList,1);
-   appendPageLinks(studentList)   
+  function searchName () {
+    const searchMatches = []; 
     
+    for (let i = 0; i < names.length; i++) {
+      names[i].className = 'hidden';
+      if/*searchInput.length !== 0 &&*/(names[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) { //noteToSelf: only nodes have textcontent, input elements have value
+        searchMatches.push([i]);  
+        // 
+
+      }  
+
+      // else {
+      //     studentList[i].style.display = 'none';
+      //     alert('Sorry, no match...')     //remember to maka a <p> or maby <h2> to say something if no search result instead of an alert
+    
+     showPage(studentList,1);
+     appendPageLinks(studentList)   
+      
+    }
   }
+    
+
+
+  button.addEventListener('click', (e) =>{
+    searchName();
+  });
+  inputField.addEventListener('keyup', (e)=> {
+    searchName();
+  });
+  
 }
-  
-
-
-button.addEventListener('click', (e) =>{
-  searchName();
-});
-// inputField.addEventListener('keyup', searchName);
-  
-
 showPage(studentList, 1); //shows the first 'page' when the page loads
 
 appendPageLinks(studentList);
+searchFunction();
 
 // searchName();
 
