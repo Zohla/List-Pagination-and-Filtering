@@ -9,6 +9,7 @@ FSJS project 2 - List Filter and Pagination
 
 const studentList = document.getElementsByClassName('student-item');
 const showPerPage = 10;
+const searchMatches = [];
 
 
 /*** 
@@ -95,7 +96,7 @@ const searchFunction = () => {
   const inputField = document.createElement('INPUT'); //need to add input.textcontent somewhere to use as an argumnet in my searchName function
   const button = document.createElement('BUTTON');
   const names = document.getElementsByTagName('h3');
-  const searchInput = inputField.textContent;
+  const searchInput = inputField.value;
   button.innerHTML = 'Search';
   searchDiv.appendChild(button);
   searchDiv.className = 'student-search';
@@ -103,14 +104,26 @@ const searchFunction = () => {
   inputField.placeholder = 'Search for students...';
   searchDiv.appendChild(inputField);
 
+   inputField.addEventListener('keyup', (e)=> {
+    searchMatches = [];
+    searchName();
+    // searchName(e.target.value);
+  });
+
+   button.addEventListener('click', (e) =>{
+    searchMatches = [];
+    searchName();
+  });
+  
   function searchName () {
-    const searchMatches = []; 
-    
+     
+    let searchedFor = searchInput.value.toLowerCase();
     for (let i = 0; i < names.length; i++) {
       names[i].className = 'hidden';
-      if/*searchInput.length !== 0 &&*/(names[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) { //noteToSelf: only nodes have textcontent, input elements have value
-        searchMatches.push([i]);  
-        // 
+      if/*searchInput.length !== 0 &&*/(names[i].textContent.toLowerCase().includes(searchedFor)) { //noteToSelf: only nodes have textcontent, input elements have value
+        searchMatches.push(names[i]); 
+        searchMatches.style.display = 'block'; 
+        // e.target.value <--hint to use this somewhere..
 
       }  
 
@@ -123,16 +136,7 @@ const searchFunction = () => {
       
     }
   }
-    
-
-
-  button.addEventListener('click', (e) =>{
-    searchName();
-  });
-  inputField.addEventListener('keyup', (e)=> {
-    searchName();
-  });
-  
+ 
 }
 showPage(studentList, 1); //shows the first 'page' when the page loads
 
