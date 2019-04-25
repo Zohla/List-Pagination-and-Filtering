@@ -9,7 +9,7 @@ FSJS project 2 - List Filter and Pagination
 
 const studentList = document.getElementsByClassName('student-item');
 const showPerPage = 10;
-const searchMatches = [];
+let searchMatches = [];
 
 
 /*** 
@@ -91,57 +91,79 @@ const appendPageLinks = list => {
 //gets parent element, adds div,input and button.
 
 const searchFunction = () => {
-  const getHeaderDiv = document.getElementsByClassName('page-header')[0];
+  const getHeaderDiv = document.getElementsByClassName('page-header')[0]; //gets parent element, the creates 4 new nodes
   const searchDiv = document.createElement('DIV');
-  const inputField = document.createElement('INPUT'); //need to add input.textcontent somewhere to use as an argumnet in my searchName function
+  const inputField = document.createElement('INPUT'); 
   const button = document.createElement('BUTTON');
   const names = document.getElementsByTagName('h3');
-  const searchInput = inputField.value;
-  button.innerHTML = 'Search';
-  searchDiv.appendChild(button);
-  searchDiv.className = 'student-search';
-  getHeaderDiv.appendChild(searchDiv);
-  inputField.placeholder = 'Search for students...';
-  searchDiv.appendChild(inputField);
+  // const name = names.textContent;
+  const studentAllDetails = document.getElementsByClassName('student-details');
+  const errorDiv = document.createElement('DIV');
+  const error = document.createElement('p');
+  console.log(names.innerHTML); // why cant i log this out?
 
-   inputField.addEventListener('keyup', (e)=> {
+  // const searchInput = inputField.textContent; //canged from textContent to value. 
+ 
+  // errorDiv.className = 'errorDiv'; //Do I need this?
+  
+  button.innerHTML = 'Search';          //adds text to the button
+  searchDiv.appendChild(button);        //adds button to searchDiv
+  searchDiv.className = 'student-search';//adds className to the div element
+  getHeaderDiv.appendChild(searchDiv);  //adds searchdiv to parent html element
+  inputField.placeholder = 'Search for students...'; // adds a placeholder to the niput field
+  inputField.type = 'text';
+  searchDiv.appendChild(inputField);    // adds inputfield to searchdiv next to button
+  getHeaderDiv.appendChild(error);
+  error.textContent = 'Sorry, no match...';
+  error.style.display ='none';
+  error.style.textAlign='center';
+  error.style.color = 'red';
+
+
+  inputField.addEventListener('keyup', ()=> {
+    error.style.display='none';
+    // studentAllDetails.style.display = 'none'; //not working. how can I hid the list when starting a search.(and must/should I?)
     searchMatches = [];
+    console.log('working');
     searchName();
-    // searchName(e.target.value);
+    });
+
+    button.addEventListener('click', (e) =>{
+    searchMatches = [];
+    console.log('working');
+    searchName();
   });
 
-   button.addEventListener('click', (e) =>{
-    searchMatches = [];
-    searchName();
-  });
+
   
   function searchName () {
-     
-    let searchedFor = searchInput.value.toLowerCase();
     for (let i = 0; i < names.length; i++) {
-      names[i].className = 'hidden';
-      if/*searchInput.length !== 0 &&*/(names[i].textContent.toLowerCase().includes(searchedFor)) { //noteToSelf: only nodes have textcontent, input elements have value
+      // names[i].className = 'hidden';
+      if (names[i].textContent.includes(inputField)) { //noteToSelf: only nodes have textcontent, input elements have value
         searchMatches.push(names[i]); 
-        searchMatches.style.display = 'block'; 
+        // searchMatches.style.display = 'block'; 
         // e.target.value <--hint to use this somewhere..
 
       }  
 
       // else {
       //     studentList[i].style.display = 'none';
-      //     alert('Sorry, no match...')     //remember to maka a <p> or maby <h2> to say something if no search result instead of an alert
-    
-     showPage(studentList,1);
-     appendPageLinks(studentList)   
       
+    if (searchMatches.length>0) { 
+     showPage(searchMatches,1);
+     appendPageLinks(searchMatches);  
+     error.style.display='none';
+      } else {
+        error.style.display='block';
+      }
     }
   }
  
 }
 showPage(studentList, 1); //shows the first 'page' when the page loads
-
 appendPageLinks(studentList);
+
 searchFunction();
 
-// searchName();
+
 
