@@ -38,7 +38,7 @@ const showPage = (list, page)=> {
 
 const appendPageLinks = list => {
   //calculates amount of pages needed
-  const totalPages = Math.ceil(studentList.length/showPerPage);
+  const totalPages = Math.ceil(list.length/showPerPage);
   // get parent element from the .html
   const pageDiv = document.getElementsByClassName('page')[0];
   //create new div
@@ -100,7 +100,7 @@ const searchFunction = () => {
   const studentAllDetails = document.getElementsByClassName('student-details');
   const errorDiv = document.createElement('DIV');
   const error = document.createElement('p');  
-  console.log(names.textContent); // why cant i log this out to test that my variable gets what i want??
+  console.log(names[0].textContent); // 
 
   // const searchInput = inputField.textContent; //canged from textContent to value. //removed for now
   
@@ -121,42 +121,41 @@ const searchFunction = () => {
 
   inputField.addEventListener('keyup', ()=> {
     error.style.display='none';
-    // studentAllDetails.style.display = 'none'; //not working. how can I hid the list when starting a search.(and must/should I?)
     searchMatches = [];
-    console.log('working');
     searchName();
     });
 
   button.addEventListener('click', (e) =>{
     error.style.display='none';
     searchMatches = [];
-    console.log('working');
     searchName();
   });
 
 
   
   function searchName () {
+    for (let i = 0; i < studentList.length; i++) {
+      studentList[i].style.display = 'none';
+    }
+
     for (let i = 0; i < names.length; i++) {
-      // names[i].className = 'hidden';
       if (names[i].textContent.includes(inputField.value)) { //noteToSelf: apparetnly only nodes have textcontent, input elements have value
         searchMatches.push(names[i]); 
-        // searchMatches.style.display = 'block'; 
-        // e.target.value <--hint to use this somewhere..
-
       }  
-}
-      // else {
-      //     studentList[i].style.display = 'none';
+    }
+      
       
     if (searchMatches.length>0) { 
-     showPage(searchMatches,1);
-     appendPageLinks(searchMatches);  
-     error.style.display='none';
-      } else {
+      //need to turn searchMatches into studentList items?
+      showPage(searchMatches,1);
+      appendPageLinks(searchMatches);
+      console.log(searchMatches);  
+      error.style.display='none';
+    } else {
         error.style.display='block';
       }
     }
+
   }
  
 
