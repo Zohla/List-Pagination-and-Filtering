@@ -122,13 +122,13 @@ const searchFunction = () => {
 
 
   inputField.addEventListener('keyup', ()=> {
-    error.style.display='none';
+    // error.style.display='none';
     searchMatches = [];
     searchName();
     });
 
   button.addEventListener('click', (e) =>{
-    error.style.display='none';
+    // error.style.display='none';
     searchMatches = [];
     searchName();
   });
@@ -136,9 +136,10 @@ const searchFunction = () => {
 
   
   function searchName () {
-    // let oldPagiantion = document.getElementsByClassName('pagination');
-    // if (oldPagiantion.length >0) {
-    //   pageDiv.removeChild(oldPagiantion);
+    // let oldPagiantion;
+    // oldPagiantion.className ='pagination';
+    // if (oldPagination.length >0) {
+    //   pageDiv.removeChild(newDiv);
     // }
     for (let i = 0; i < studentList.length; i++) {
       studentList[i].style.display = 'none';
