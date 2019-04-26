@@ -37,6 +37,7 @@ const showPage = (list, page)=> {
 ***/
 
 const appendPageLinks = list => {
+
   //calculates amount of pages needed
   const totalPages = Math.ceil(list.length/showPerPage);
   // get parent element from the .html
@@ -51,6 +52,7 @@ const appendPageLinks = list => {
   let ul = document.createElement('UL');
   //append ul to newDiv
   newDiv.appendChild(ul);
+  
 
 //create the necessary amount of pagination buttons.
   // if (totalPages > 0) { }//don't need if statement? Use it to check if the list is shorter or equal to showPerPage?
@@ -134,13 +136,17 @@ const searchFunction = () => {
 
   
   function searchName () {
+    // let oldPagiantion = document.getElementsByClassName('pagination');
+    // if (oldPagiantion.length >0) {
+    //   pageDiv.removeChild(oldPagiantion);
+    // }
     for (let i = 0; i < studentList.length; i++) {
       studentList[i].style.display = 'none';
     }
 
     for (let i = 0; i < names.length; i++) {
       if (names[i].textContent.includes(inputField.value)) { //noteToSelf: apparetnly only nodes have textcontent, input elements have value
-        searchMatches.push(names[i]); 
+        searchMatches.push(studentList[i]); 
       }  
     }
       
