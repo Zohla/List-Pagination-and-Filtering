@@ -12,6 +12,7 @@ const showPerPage = 10;
 let searchMatches = [];
 
 
+
 /*** 
    Function to hide all of the items in the 
    list except for the number you want to show.
@@ -37,7 +38,13 @@ const showPage = (list, page)=> {
 ***/
 
 const appendPageLinks = list => {
+  const oldPagin = document.getElementsByClassName('pagination');
+    if(oldPagin.length === 1) {
+      pageDiv.removeChild(newDiv);
+    }
 
+ 
+  //
   //calculates amount of pages needed
   const totalPages = Math.ceil(list.length/showPerPage);
   // get parent element from the .html
@@ -53,6 +60,8 @@ const appendPageLinks = list => {
   //append ul to newDiv
   newDiv.appendChild(ul);
   
+  console.log(oldPagin);
+  
 
 //create the necessary amount of pagination buttons.
   // if (totalPages > 0) { }//don't need if statement? Use it to check if the list is shorter or equal to showPerPage?
@@ -61,6 +70,8 @@ const appendPageLinks = list => {
       let li = document.createElement('LI');
       let link = document.createElement('A');
       link.href = '#'; 
+      // if ()
+      // li.removeChild(link);
 
       //sets the text content of the link to numbers and append the links.
       link.textContent = i;
@@ -101,8 +112,8 @@ const searchFunction = () => {
   // const name = names.textContent;
   const studentAllDetails = document.getElementsByClassName('student-details');
   const errorDiv = document.createElement('DIV');
-  const error = document.createElement('p');  
-  console.log(names[0].textContent); // 
+  const error = document.createElement('p'); 
+  console.log(names[0].textContent); // just to see that it works
 
   // const searchInput = inputField.textContent; //canged from textContent to value. //removed for now
   
@@ -122,6 +133,7 @@ const searchFunction = () => {
 
 
   inputField.addEventListener('keyup', ()=> {
+
     // error.style.display='none';
     searchMatches = [];
     searchName();
@@ -136,11 +148,7 @@ const searchFunction = () => {
 
   
   function searchName () {
-    // let oldPagiantion;
-    // oldPagiantion.className ='pagination';
-    // if (oldPagination.length >0) {
-    //   pageDiv.removeChild(newDiv);
-    // }
+    
     for (let i = 0; i < studentList.length; i++) {
       studentList[i].style.display = 'none';
     }
