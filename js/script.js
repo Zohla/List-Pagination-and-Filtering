@@ -38,16 +38,13 @@ const showPage = (list, page)=> {
 ***/
 
 const appendPageLinks = list => {
-  const oldPagin = document.getElementsByClassName('pagination');
-    if(oldPagin.length === 1) {
-      pageDiv.removeChild(newDiv);
-    }
+
+  
 
  
-  //
   //calculates amount of pages needed
   const totalPages = Math.ceil(list.length/showPerPage);
-  // get parent element from the .html
+    // get parent element from the .html
   const pageDiv = document.getElementsByClassName('page')[0];
   //create new div
   const newDiv = document.createElement('DIV');
@@ -60,7 +57,7 @@ const appendPageLinks = list => {
   //append ul to newDiv
   newDiv.appendChild(ul);
   
-  console.log(oldPagin);
+  
   
 
 //create the necessary amount of pagination buttons.
@@ -83,6 +80,12 @@ const appendPageLinks = list => {
     const pagLinks = document.querySelectorAll('.pagination a');
     //adds a className to the first(and active) link
     pagLinks[0].className = 'active';
+    //remove old paginlinks
+    const oldPagin = document.querySelector('.pagination');
+      if(oldPagin.length === 1) {
+        oldPagin.remove();
+        // console.log(oldPagin);
+    }
     //give active link class 'active' and the others no class.
     for (let i = 0; i < pagLinks.length; i++)  {
       pagLinks[i].addEventListener('click', (event) => {
@@ -113,7 +116,7 @@ const searchFunction = () => {
   const studentAllDetails = document.getElementsByClassName('student-details');
   const errorDiv = document.createElement('DIV');
   const error = document.createElement('p'); 
-  console.log(names[0].textContent); // just to see that it works
+  
 
   // const searchInput = inputField.textContent; //canged from textContent to value. //removed for now
   
@@ -161,7 +164,6 @@ const searchFunction = () => {
       
       
     if (searchMatches.length>0) { 
-      //need to turn searchMatches into studentList items?
       showPage(searchMatches,1);
       appendPageLinks(searchMatches);
       console.log(searchMatches);  
