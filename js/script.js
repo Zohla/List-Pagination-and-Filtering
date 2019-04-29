@@ -38,6 +38,9 @@ const showPage = (list, page)=> {
 ***/
 
 const appendPageLinks = list => {
+   // get parent element from the .html
+  const pageDiv = document.getElementsByClassName('page')[0];
+  //remove old paginlinks before adding new
   const oldPagin = document.getElementsByClassName('pagination');
     if(oldPagin.length === 1) {
       pageDiv.removeChild(newDiv);
@@ -46,9 +49,9 @@ const appendPageLinks = list => {
  
   //
   //calculates amount of pages needed
+
   const totalPages = Math.ceil(list.length/showPerPage);
-  // get parent element from the .html
-  const pageDiv = document.getElementsByClassName('page')[0];
+ 
   //create new div
   const newDiv = document.createElement('DIV');
   //gives newDiv a class name
