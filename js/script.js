@@ -21,7 +21,7 @@ let searchMatches = [];
 const showPage = (list, page)=> {
   //gets item 0-9 in the studentlist on the the first page, and so on
   const startIndex = page * showPerPage - showPerPage;
-  const endIndex = page * showPerPage -1;//page * showPerPage - 1;// had to add -1 to not get 11 students on first page.
+  const endIndex = page * showPerPage -1;
   for (let i = 0; i < list.length; i++) {
     if (i >= startIndex && i<= endIndex) {
       list[i].style.display = 'block' ;
@@ -38,13 +38,9 @@ const showPage = (list, page)=> {
 ***/
 
 const appendPageLinks = list => {
-
-  
-
- 
   //calculates amount of pages needed
   const totalPages = Math.ceil(list.length/showPerPage);
-    // get parent element from the .html
+  // get parent element from the .html
   const pageDiv = document.getElementsByClassName('page')[0];
   //create new div
   const newDiv = document.createElement('DIV');
@@ -61,32 +57,28 @@ const appendPageLinks = list => {
   
 
 //create the necessary amount of pagination buttons.
-  // if (totalPages > 0) { }//don't need if statement? Use it to check if the list is shorter or equal to showPerPage?
+  
     for (let i = 1; i <= totalPages; i++) {
       //creates a list item and a link for each 'page'
       let li = document.createElement('LI');
       let link = document.createElement('A');
       link.href = '#'; 
-      // if ()
-      // li.removeChild(link);
-
+     
       //sets the text content of the link to numbers and append the links.
       link.textContent = i;
       ul.appendChild(li);
       li.appendChild(link);        
     }
-    //**sets an eventlistener to each link**//
+
+    
     //select the link
     const pagLinks = document.querySelectorAll('.pagination a');
     //adds a className to the first(and active) link
     pagLinks[0].className = 'active';
-    //remove old paginlinks
-    const oldPagin = document.querySelector('.pagination');
-      if(oldPagin.length === 1) {
-        oldPagin.remove();
-        // console.log(oldPagin);
-    }
-    //give active link class 'active' and the others no class.
+    
+    
+    
+    //**sets an eventlistener to each link**//
     for (let i = 0; i < pagLinks.length; i++)  {
       pagLinks[i].addEventListener('click', (event) => {
         const clickedLink = event.target.textContent;
@@ -103,8 +95,8 @@ const appendPageLinks = list => {
    Search function
 ***/
 
-/*add the necessary elements to the DOM to make a search field and button
-  gets parent element, adds div,input, p and button.*/
+/*add the necessary elements to the DOM to make a search field and button.
+  Gets parent element, adds div,input, p and button.*/
 
 const searchFunction = () => {
   const getHeaderDiv = document.getElementsByClassName('page-header')[0]; //gets parent element, the creates 4 new nodes
@@ -117,8 +109,6 @@ const searchFunction = () => {
   const errorDiv = document.createElement('DIV');
   const error = document.createElement('p'); 
   
-
-  // const searchInput = inputField.textContent; //canged from textContent to value. //removed for now
   
   button.innerHTML = 'Search';          //adds text to the button
   searchDiv.appendChild(button);        //adds button to searchDiv
@@ -134,16 +124,21 @@ const searchFunction = () => {
   error.style.color = 'red';
 
 
-
+  //adds event listeners for keyup and click, and removes old pagination links.
   inputField.addEventListener('keyup', ()=> {
-
-    // error.style.display='none';
+    const oldPagin = document.querySelector('.pagination');
+      if(oldPagin) {
+        oldPagin.remove();    
+    }
     searchMatches = [];
     searchName();
     });
 
   button.addEventListener('click', (e) =>{
-    // error.style.display='none';
+    const oldPagin = document.querySelector('.pagination');
+      if(oldPagin) {
+        oldPagin.remove();    
+    }
     searchMatches = [];
     searchName();
   });
@@ -151,18 +146,18 @@ const searchFunction = () => {
 
   
   function searchName () {
-    
+    //hides all student names
     for (let i = 0; i < studentList.length; i++) {
       studentList[i].style.display = 'none';
     }
-
+    //pushes serch matches to an array
     for (let i = 0; i < names.length; i++) {
-      if (names[i].textContent.includes(inputField.value)) { //noteToSelf: apparetnly only nodes have textcontent, input elements have value
+      if (names[i].textContent.includes(inputField.value)) { 
         searchMatches.push(studentList[i]); 
       }  
     }
       
-      
+      //show searchmatches and the error message if applicable
     if (searchMatches.length>0) { 
       showPage(searchMatches,1);
       appendPageLinks(searchMatches);
