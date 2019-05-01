@@ -120,7 +120,7 @@ const searchFunction = () => {
   getHeaderDiv.appendChild(error);      //adds error p to page
   error.textContent = 'Sorry, no match...';  
   error.style.display ='none';            //hides error message
-  error.style.textAlign='center';        //still not pretty..move this?
+  error.style.textAlign='center';        
   error.style.color = 'red';
 
 
@@ -150,14 +150,14 @@ const searchFunction = () => {
     for (let i = 0; i < studentList.length; i++) {
       studentList[i].style.display = 'none';
     }
-    //pushes serch matches to an array
+    //pushes search matches to an array
     for (let i = 0; i < names.length; i++) {
       if (names[i].textContent.includes(inputField.value)) { 
         searchMatches.push(studentList[i]); 
       }  
     }
       
-      //show searchmatches and the error message if applicable
+      //show search matches (and the error message if applicable)
     if (searchMatches.length>0) { 
       showPage(searchMatches,1);
       appendPageLinks(searchMatches);
